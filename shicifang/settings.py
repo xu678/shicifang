@@ -25,7 +25,7 @@ SECRET_KEY = '_qfvusl@rd#3ma%a&zlojg&rq$^6e0!fsep(7#86g4x$i1j-fa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,16 +37,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
 
+    "rest_framework",
+    # 跨域设置
+    'corsheaders',
+    # app子应用
+    "apps.users",
+]
+AUTH_USER_MODEL="users.User"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 跨域的中间层设置
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'shicifang.urls'
@@ -75,8 +83,12 @@ WSGI_APPLICATION = 'shicifang.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        "HOST": "localhost",
+        "PORT": "3306",
+        "USER": "root",
+        "PASSWORD": "xuKNG.89",
+        'NAME': "shicifang",
     }
 }
 
@@ -103,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -118,3 +130,36 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+####################
+# 白名单
+CORS_ORIGIN_WHITELIST = (
+    "http://127.0.0.1:8080",
+
+    "http://182.92.86.202:8080",
+    "http://182.92.86.202:8000",
+)
+# 允许携带cookie
+CORS_ALLOW_CREDENTIALS = True
+
+######################
+# JWT 设置
+
+REST_FRAMEWORK = {
+    # 指定DRF框架的异常处理函数
+    # 'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+# 指定DRF框架的全局分页类
+    'DEFAULT_PAGINATION_CLASS': 'meiduo_mall.utils.pagination.StandardResultPagination'
+}
+
+import datetime
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': "utils.jwt_response",
+}

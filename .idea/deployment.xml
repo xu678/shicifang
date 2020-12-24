@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@182.92.86.202:22 password">
+    <serverData>
+      <paths name="python@192.168.199.128:22 password">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@182.92.86.202:22 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/python/shicifang" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@182.92.86.202:22 password (1)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
